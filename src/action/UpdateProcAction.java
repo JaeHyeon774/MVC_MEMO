@@ -14,32 +14,26 @@ public class UpdateProcAction implements Action {
 	@Override
 	public String execute(HttpServletRequest request, HttpServletResponse responae) throws Throwable {
 		MemoDAO dao = new MemoDAO();
-		request.setCharacterEncoding("utf-8");
-		String wname = request.getParameter("wname");
-		String title = request.getParameter("title");
-		String content = request.getParameter("content");
-		String passwd = request.getParameter("passwd");
-		
 		MemoDTO dto = new MemoDTO();
-		dto.setWname(wname);
-		dto.setTitle(title);
-		dto.setContent(content);
-		dto.setPasswd(passwd);
+		dto.setMemono(Integer.parseInt(request.getParameter("memono")));
+		dto.setWname(request.getParameter("wname"));
+		dto.setTitle(request.getParameter("title"));
+		dto.setContent(request.getParameter("content"));
+		dto.setPasswd(request.getParameter("passwd"));
 		
 		Map map = new HashMap();
 		map.put("memono",dto.getMemono());
-		map.put("passwd",dto.getPasswd());
+		map.put("passwd", dto.getPasswd());
 		
 		boolean pflag = dao.passCheck(map);
 		
 		boolean flag = false;
-		
 		if(pflag) {
 			flag = dao.update(dto);
 		}
 		
-		request.setAttribute("flag", flag);
-		request.setAttribute("pflag", pflag);
+		request.setAttribute("flag",flag);
+		request.setAttribute("pflag",pflag);
 		
 		return "/view/updateProc.jsp";
 	}
